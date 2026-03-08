@@ -31,14 +31,14 @@ The repository uses one canonical `SKILL.md` per skill.
 
 ## Skills
 
-### `roundtable-design-council`
+### `roundtable-design-review`
 
-Structured multi-model design workflow. One model authors a proposal, peer models review it, and the process converges in at most three proposal versions.
+Structured multi-model design workflow. One model authors a proposal, peer models review it, and the process converges in at most three proposal versions. Live artifacts should be stored in isolated session directories such as `AI_SESSIONS_HOME/roundtable-design-review/<workspace-slug>/<session-slug>/`, not mixed into business docs or source folders.
 
-- Skill definition: `skills/roundtable-design-council/SKILL.md`
-- Codex metadata: `skills/roundtable-design-council/agents/openai.yaml`
-- Templates: `skills/roundtable-design-council/references/templates.md`
-- Checked-in sample rounds: `skills/roundtable-design-council/examples/rounds/`
+- Skill definition: `skills/roundtable-design-review/SKILL.md`
+- Codex metadata: `skills/roundtable-design-review/agents/openai.yaml`
+- Templates: `skills/roundtable-design-review/references/templates.md`
+- Checked-in sample sessions: `skills/roundtable-design-review/examples/sessions/`
 
 Workflow:
 
