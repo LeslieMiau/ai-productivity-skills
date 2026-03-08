@@ -6,6 +6,11 @@ Reusable, production-minded skills for LLM coding assistants.
 
 This repository is for people who want assistant workflows that are sharper than generic prompt snippets: reusable instructions, platform metadata, examples, and companion docs that work across both Claude Code and Codex.
 
+## Solve The Pain First
+
+- `roundtable-design-review`: Use cross-model review for first prompts, design proposals, and risky refactors so you think through the important work before you start coding.
+- `token-guard`: Stop losing momentum to token black holes, bloated sessions, and expensive Claude limits. Use it to catch high-risk tasks before they burn context and stall the job.
+
 ## Why This Repo
 
 - One repository, multiple skills, one predictable layout.
