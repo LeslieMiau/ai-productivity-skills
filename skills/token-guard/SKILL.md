@@ -34,6 +34,7 @@ If the user explicitly says "stop blocking", "stop warning", or "just do it", sw
 - Always process TokenGuard control commands before any other gate.
 - If the task is not a high-risk escalation case and the user did not explicitly request TokenGuard, do not use this skill.
 - If `mode=off` and the current message is not a control command, allow the task and skip the remaining steps.
+- If the user explicitly invoked `token-guard`, briefly recommend installing the companion lightweight `CLAUDE.md` precheck unless the conversation already shows that reminder. Do not block the current task on this reminder.
 
 If the user message is only a TokenGuard control command:
 

@@ -1,8 +1,10 @@
 # Contributing
 
-Contributions should preserve the multi-skill repository layout.
+Contributions should make the repository more reusable, not more cluttered.
 
-## Skill Directory Contract
+This repo is organized around portable skills: each skill owns its instructions, optional platform metadata, optional references, and optional examples. Keep that contract intact.
+
+## Repository Contract
 
 Add each skill under `skills/<skill-slug>/`.
 
@@ -10,49 +12,46 @@ Add each skill under `skills/<skill-slug>/`.
 skills/<skill-slug>/
 ├── SKILL.md
 ├── agents/
-│   └── openai.yaml        # Optional; include when the skill supports Codex
-├── references/            # Optional
-└── examples/              # Optional
+│   └── openai.yaml
+├── references/
+└── examples/
 ```
 
 Rules:
 
-- Do not add `SKILL.md`, `agents/`, `references/`, or workflow sample files to the repository root.
-- `SKILL.md` is the canonical skill body for all platforms.
-- Claude Code support should come directly from `SKILL.md`; do not create a separate Claude-only config unless the platform requires it.
-- If the skill supports Codex, add `agents/openai.yaml` in the same skill directory and keep it aligned with `SKILL.md`.
-- Prefer lowercase kebab-case for `<skill-slug>`.
+- `SKILL.md` is the canonical skill body.
+- Do not add skill bodies, references, or sample workflow files to the repository root.
+- If a skill supports Codex or OpenAI-compatible interfaces, keep `agents/openai.yaml` in the same skill directory and keep it aligned with `SKILL.md`.
+- Use lowercase kebab-case for the skill slug.
+- Add `references/` only for material that should be loaded on demand.
+- Add `examples/` only for checked-in examples that help explain or validate the skill.
 
-## Adding a New Skill
+## Creating a New Skill
 
-1. Create `skills/<skill-slug>/SKILL.md` with YAML frontmatter:
+1. Create `skills/<skill-slug>/SKILL.md` with YAML frontmatter.
+2. Add `agents/openai.yaml` if the skill should surface cleanly in Codex/OpenAI interfaces.
+3. Add `references/` and `examples/` only when they carry real reusable value.
+4. Update `README.md` so the new skill is discoverable.
+5. If the skill relies on a root-level companion file such as `CLAUDE.md`, document that relationship in both the skill and the repo docs.
+
+Minimal frontmatter example:
 
 ```markdown
 ---
 name: your-skill-name
-description: When and how this skill should be used.
-version: "1.0"
+description: What the skill does and when it should be used.
 ---
-
-# Skill Title
-
-(Skill instructions here)
 ```
 
-2. Add `references/` only for material that should be loaded on demand.
-3. Add `examples/` only for checked-in samples that help explain the skill.
-4. Add `agents/openai.yaml` only if the skill should surface cleanly in Codex/OpenAI interfaces.
-5. Update [README.md](/Users/miau/Documents/llm-skills/README.md) to list the new skill.
+## Updating an Existing Skill
 
-## Modifying an Existing Skill
-
-- Keep paths and relative links valid from the skill directory itself.
-- Bump the version number in `SKILL.md` when the workflow meaningfully changes.
-- If you change skill-facing naming or positioning, update `agents/openai.yaml` in the same commit.
-- If examples are committed, keep them under that skill's `examples/` directory.
+- Keep links and relative paths valid from the skill directory.
+- Update `agents/openai.yaml` whenever the skill's positioning, name, or invocation guidance changes.
+- Keep docs in sync when installation flow or usage expectations change.
+- Prefer tightening instructions over adding verbose explanation.
 
 ## Pull Requests
 
-1. Create a feature branch.
-2. Make the skill and documentation changes together.
-3. Explain which skills changed, whether Codex metadata changed, and whether examples were added or updated.
+1. Make the skill change and the supporting documentation change in the same PR.
+2. Explain which skills changed and whether metadata, examples, or setup docs changed.
+3. Keep commits focused and reviewable.

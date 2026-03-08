@@ -1,68 +1,52 @@
 # llm-skills
 
-Reusable skills for LLM coding assistants. This repository now supports multiple skills in one repo, with a shared layout that works for both Claude Code and Codex.
+Reusable, production-minded skills for LLM coding assistants.
 
-## Repository Layout
+This repository is built for people who want assistant workflows that are sharper than generic prompt snippets: reusable instructions, platform metadata, examples, and companion docs that work across both Claude Code and Codex.
 
-Each skill lives under `skills/<skill-slug>/` and owns its own instructions, platform metadata, references, and examples.
+## Why This Repo
 
-```text
-.
-├── skills/
-│   └── <skill-slug>/
-│       ├── SKILL.md              # Shared skill instructions; Claude Code consumes this directly
-│       ├── agents/
-│       │   └── openai.yaml       # Optional Codex/OpenAI UI metadata
-│       ├── references/           # Optional reference docs loaded on demand
-│       └── examples/             # Optional checked-in examples for the skill
-├── CONTRIBUTING.md
-├── LICENSE
-└── README.md
-```
+- One repository, multiple skills, one predictable layout.
+- Shared `SKILL.md` instructions across platforms.
+- Optional Codex metadata via `agents/openai.yaml`.
+- Lightweight global guidance where it helps, detailed workflows only when needed.
+- Checked-in examples and references instead of hidden tribal knowledge.
 
-## Platform Support
-
-The repository uses one canonical `SKILL.md` per skill.
-
-| Platform | Consumes | Notes |
-|---|---|---|
-| Claude Code | `skills/<skill-slug>/SKILL.md` | No separate Claude-specific config file by default |
-| Codex / OpenAI-compatible agents | `skills/<skill-slug>/SKILL.md` + `skills/<skill-slug>/agents/openai.yaml` | `openai.yaml` provides UI-facing metadata |
-
-## Skills
+## Featured Skills
 
 ### `roundtable-design-review`
 
-Structured multi-model design workflow. One model authors a proposal, peer models review it, and the process converges in at most three proposal versions. Live artifacts should be stored in isolated session directories such as `AI_SESSIONS_HOME/roundtable-design-review/<workspace-slug>/<session-slug>/`, not mixed into business docs or source folders.
+Structured multi-model design workflow for proposal, critique, revision, and final review. Use it when one model should author, peers should review, and the human should arbitrate without mixing design artifacts into the main codebase.
 
 - Skill definition: `skills/roundtable-design-review/SKILL.md`
 - Codex metadata: `skills/roundtable-design-review/agents/openai.yaml`
 - Templates: `skills/roundtable-design-review/references/templates.md`
-- Checked-in sample sessions: `skills/roundtable-design-review/examples/sessions/`
+- Sample sessions: `skills/roundtable-design-review/examples/sessions/`
 
 Workflow:
 
 ```text
-User idea → Author drafts V1 → Reviewers critique → Human arbitrates
-  → Author revises V2 → Reviewers give final verdict
-  → All approved → Done / Any blocker → Author fixes V3 → Done
+User idea -> Author drafts V1 -> Reviewers critique -> Human arbitrates
+  -> Author revises V2 -> Reviewers give final verdict
+  -> All approved -> Done / Any blocker -> Author fixes V3 -> Done
 ```
 
 ### `token-guard`
 
-Escalation-only token budget guardrail. Use it to block or narrow only genuinely expensive task patterns such as long-session bloat, repo-wide scans, multi-step tool loops, oversized tool output, repeated long prompt background, excessive MCP exposure, or mid-session switching of model, thinking mode, or tool strategy.
+Escalation-only token budget guardrail for expensive sessions. Use it to catch the patterns that quietly burn context and budget: long-session bloat, repo-wide scans, tool loops, oversized tool output, repeated background, heavy MCP exposure, or mid-session switching of model, thinking mode, or tool strategy.
 
 - Skill definition: `skills/token-guard/SKILL.md`
 - Codex metadata: `skills/token-guard/agents/openai.yaml`
-- Global lightweight precheck: `CLAUDE.md`
+- Companion global precheck: `CLAUDE.md`
+- Setup guide: `docs/setup.md`
 
 Layering model:
 
 ```text
 CLAUDE.md lightweight precheck
-  → low/medium risk: proceed normally
-  → high/extreme risk or explicit TokenGuard request: invoke token-guard
-  → token-guard either intercepts, suggests cheaper alternatives, or allows with a coarse estimate
+  -> low/medium risk: proceed normally
+  -> high/extreme risk or explicit TokenGuard request: invoke token-guard
+  -> token-guard intercepts, narrows scope, or allows with a coarse estimate
 ```
 
 Example prompts:
@@ -75,24 +59,62 @@ Use $token-guard for an explicit check:
 "Evaluate whether this task is too expensive before proceeding: review these 20 files and summarize everything."
 ```
 
-## Usage
+## Quick Start
 
 ### Claude Code
 
-Install or copy the desired `skills/<skill-slug>/SKILL.md` into your Claude Code skills directory.
-
-If you want the lightweight always-on precheck for `token-guard`, also copy the repository root `CLAUDE.md` into your Claude Code global instructions.
+1. Copy the desired `skills/<skill-slug>/SKILL.md` into your Claude Code skills directory.
+2. If you install `token-guard`, also install the repository root `CLAUDE.md` as your lightweight global precheck.
+3. Keep examples and references in the repo; load them only when needed.
 
 ### Codex
 
-Use the same `SKILL.md` as the skill body and `agents/openai.yaml` for the Codex/OpenAI interface metadata.
+1. Use `skills/<skill-slug>/SKILL.md` as the skill body.
+2. Use `skills/<skill-slug>/agents/openai.yaml` for Codex/OpenAI interface metadata.
+3. For `token-guard`, also carry over the root `CLAUDE.md` if you want the always-on lightweight precheck layer.
 
 ### Manual Use
 
 1. Load `skills/<skill-slug>/SKILL.md` into the target model.
-2. Read any referenced files from that skill's `references/` directory as needed.
-3. If the skill generates workflow artifacts, create a working directory in your project as described by the skill.
-4. Treat `examples/` as repository samples, not as the live working directory unless the skill explicitly says otherwise.
+2. Read any referenced files from that skill's `references/` directory on demand.
+3. If the skill generates workflow artifacts, create a working directory exactly as described by the skill.
+4. Treat `examples/` as checked-in samples, not as the live working directory unless the skill explicitly says otherwise.
+
+## Repository Layout
+
+Each skill lives under `skills/<skill-slug>/` and owns its own instructions, metadata, references, and examples.
+
+```text
+.
+├── skills/
+│   └── <skill-slug>/
+│       ├── SKILL.md
+│       ├── agents/
+│       │   └── openai.yaml
+│       ├── references/
+│       └── examples/
+├── docs/
+├── CLAUDE.md
+├── CONTRIBUTING.md
+├── LICENSE
+└── README.md
+```
+
+## Platform Support
+
+| Platform | Consumes | Notes |
+| --- | --- | --- |
+| Claude Code | `skills/<skill-slug>/SKILL.md` | Shared skill body; root `CLAUDE.md` is optional global guidance |
+| Codex / OpenAI-compatible agents | `skills/<skill-slug>/SKILL.md` + `skills/<skill-slug>/agents/openai.yaml` | `openai.yaml` provides UI-facing metadata |
+
+## Docs
+
+- Setup and installation: `docs/setup.md`
+- Contribution rules: `CONTRIBUTING.md`
+
+## Contributing
+
+Contributions should preserve the shared multi-skill layout and keep skills usable across platforms. See `CONTRIBUTING.md` for the directory contract and contribution workflow.
 
 ## License
 
