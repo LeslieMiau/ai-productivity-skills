@@ -1,0 +1,4 @@
+interface:
+  display_name: "Token Guard"
+  short_description: "高风险任务的升级式 Token 守门"
+  default_prompt: "Use $token-guard to assess whether this high-risk task should be blocked, narrowed, or allowed before proceeding."

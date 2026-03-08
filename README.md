@@ -48,11 +48,40 @@ User idea → Author drafts V1 → Reviewers critique → Human arbitrates
   → All approved → Done / Any blocker → Author fixes V3 → Done
 ```
 
+### `token-guard`
+
+Escalation-only token budget guardrail. Use it to block or narrow only genuinely expensive task patterns such as long-session bloat, repo-wide scans, multi-step tool loops, oversized tool output, repeated long prompt background, excessive MCP exposure, or mid-session switching of model, thinking mode, or tool strategy.
+
+- Skill definition: `skills/token-guard/SKILL.md`
+- Codex metadata: `skills/token-guard/agents/openai.yaml`
+- Global lightweight precheck: `CLAUDE.md`
+
+Layering model:
+
+```text
+CLAUDE.md lightweight precheck
+  → low/medium risk: proceed normally
+  → high/extreme risk or explicit TokenGuard request: invoke token-guard
+  → token-guard either intercepts, suggests cheaper alternatives, or allows with a coarse estimate
+```
+
+Example prompts:
+
+```text
+Use $token-guard to assess this request before doing it:
+"Continue this long session, scan the whole repo, fix issues, run tests, and give me a full report."
+
+Use $token-guard for an explicit check:
+"Evaluate whether this task is too expensive before proceeding: review these 20 files and summarize everything."
+```
+
 ## Usage
 
 ### Claude Code
 
 Install or copy the desired `skills/<skill-slug>/SKILL.md` into your Claude Code skills directory.
+
+If you want the lightweight always-on precheck for `token-guard`, also copy the repository root `CLAUDE.md` into your Claude Code global instructions.
 
 ### Codex
 
