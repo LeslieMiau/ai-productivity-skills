@@ -8,6 +8,10 @@ version: "6.2"
 
 Multi-model collaborative design workflow. One model (Author) drafts a technical proposal, other models (Reviewers) critique it, and the human arbitrates conflicts. Converges to a final design in at most 3 versions.
 
+Repository note:
+- Checked-in sample outputs live in `examples/rounds/`.
+- When actively using this skill, create or reuse a working `rounds/` directory in your current project or workspace.
+
 ## Roles
 
 - **Author** — Drafts proposals, asks clarifying questions, revises based on feedback. Only the Author writes `*-proposal.md` files.
@@ -210,3 +214,4 @@ Once all Reviewers who participated in Step 2 have submitted final reviews (i.e.
 ## Additional Resources
 
 - **`references/templates.md`** — Input templates for each step and output format specifications.
+- **`examples/rounds/`** — Sample repository outputs that illustrate the workflow state progression.

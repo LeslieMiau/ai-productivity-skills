@@ -1,82 +1,69 @@
 # llm-skills
 
-Custom skills for LLM-powered coding assistants. Currently includes **Roundtable Design Council** — a structured multi-model collaborative design workflow.
+Reusable skills for LLM coding assistants. This repository now supports multiple skills in one repo, with a shared layout that works for both Claude Code and Codex.
 
-## Overview
+## Repository Layout
 
-This repository hosts reusable skill definitions that can be loaded into LLM coding assistants (Claude Code, OpenAI Codex, etc.) to extend their capabilities with specialized workflows.
+Each skill lives under `skills/<skill-slug>/` and owns its own instructions, platform metadata, references, and examples.
 
-### Roundtable Design Council v6.2
-
-A multi-model Author-Reviewer workflow for technical design. One model (Author) drafts a technical proposal, other models (Reviewers) critique it, and the human arbitrates conflicts. The process converges to a final design in at most 3 versions.
-
-**Workflow:**
-
+```text
+.
+├── skills/
+│   └── <skill-slug>/
+│       ├── SKILL.md              # Shared skill instructions; Claude Code consumes this directly
+│       ├── agents/
+│       │   └── openai.yaml       # Optional Codex/OpenAI UI metadata
+│       ├── references/           # Optional reference docs loaded on demand
+│       └── examples/             # Optional checked-in examples for the skill
+├── CONTRIBUTING.md
+├── LICENSE
+└── README.md
 ```
+
+## Platform Support
+
+The repository uses one canonical `SKILL.md` per skill.
+
+| Platform | Consumes | Notes |
+|---|---|---|
+| Claude Code | `skills/<skill-slug>/SKILL.md` | No separate Claude-specific config file by default |
+| Codex / OpenAI-compatible agents | `skills/<skill-slug>/SKILL.md` + `skills/<skill-slug>/agents/openai.yaml` | `openai.yaml` provides UI-facing metadata |
+
+## Skills
+
+### `roundtable-design-council`
+
+Structured multi-model design workflow. One model authors a proposal, peer models review it, and the process converges in at most three proposal versions.
+
+- Skill definition: `skills/roundtable-design-council/SKILL.md`
+- Codex metadata: `skills/roundtable-design-council/agents/openai.yaml`
+- Templates: `skills/roundtable-design-council/references/templates.md`
+- Checked-in sample rounds: `skills/roundtable-design-council/examples/rounds/`
+
+Workflow:
+
+```text
 User idea → Author drafts V1 → Reviewers critique → Human arbitrates
   → Author revises V2 → Reviewers give final verdict
-  → All ✅ → Done  /  Any ⚠️ → Author fixes V3 → Done (hard stop)
-```
-
-**Roles:**
-- **Author** — Drafts proposals, revises based on feedback
-- **Reviewer** — Reviews across architecture, feasibility, risks, and alternatives
-
-## Repository Structure
-
-```
-.
-├── SKILL.md                  # Skill definition (Roundtable Design Council)
-├── agents/
-│   └── openai.yaml           # OpenAI-compatible agent config
-├── references/
-│   └── templates.md          # Input templates and output format specs
-├── rounds/                   # Workflow artifacts (proposals & reviews)
-│   ├── 1-proposal.md         # Author's V1 proposal
-│   ├── 2-review-*.md         # Reviewer feedback on V1
-│   ├── 3-proposal.md         # Author's V2 proposal (revised)
-│   ├── 4-final-review-*.md   # Reviewer final verdicts on V2
-│   └── 5-proposal.md         # V3 fix (only if any verdict has ⚠️)
-├── LICENSE                   # MIT License
-└── README.md
+  → All approved → Done / Any blocker → Author fixes V3 → Done
 ```
 
 ## Usage
 
-### With Claude Code
+### Claude Code
 
-Place `SKILL.md` in the Claude Code skill configuration directory. The skill will be automatically available when the user requests a multi-model design review.
+Install or copy the desired `skills/<skill-slug>/SKILL.md` into your Claude Code skills directory.
 
-### With OpenAI-compatible Agents
+### Codex
 
-Use the `agents/openai.yaml` as the agent configuration. Paste the content of `SKILL.md` as the system prompt.
+Use the same `SKILL.md` as the skill body and `agents/openai.yaml` for the Codex/OpenAI interface metadata.
 
-### Manual (Any LLM)
+### Manual Use
 
-1. Copy the content of `SKILL.md` into the model's system prompt or context.
-2. Use the input templates from `references/templates.md` to drive each step.
-3. Save outputs to the `rounds/` directory following the naming convention.
-
-### Starting a New Design
-
-1. Clear or rename the `rounds/` directory.
-2. Provide your idea to the Author model using the Step 1 template.
-3. Pass the V1 proposal to each Reviewer model using the Step 2 template.
-4. Arbitrate any conflicts, then have the Author revise using the Step 3 template.
-5. Have each Reviewer submit a final verdict using the Step 4 template.
-6. If all verdicts are `✅ pass`, V2 is final. If any `⚠️`, proceed to V3 fix.
-
-## File Naming Convention
-
-All workflow artifacts in `rounds/` use sequence-number prefixes:
-
-| File Pattern | Description |
-|---|---|
-| `1-proposal.md` | Author's V1 draft |
-| `2-review-{model}.md` | Reviewer feedback (e.g., `2-review-claude.md`) |
-| `3-proposal.md` | Author's V2 revision |
-| `4-final-review-{model}.md` | Final verdict per reviewer |
-| `5-proposal.md` | V3 targeted fix (if needed) |
+1. Load `skills/<skill-slug>/SKILL.md` into the target model.
+2. Read any referenced files from that skill's `references/` directory as needed.
+3. If the skill generates workflow artifacts, create a working directory in your project as described by the skill.
+4. Treat `examples/` as repository samples, not as the live working directory unless the skill explicitly says otherwise.
 
 ## License
 

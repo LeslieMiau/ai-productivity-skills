@@ -2,7 +2,11 @@
 
 Input templates for each workflow step and output format specifications.
 
-All step outputs are saved to the `rounds/` directory with sequence-number prefixes. Subsequent steps read from these files directly — no manual copy-paste needed.
+All step outputs are saved to the working `rounds/` directory with sequence-number prefixes. Subsequent steps read from these files directly — no manual copy-paste needed.
+
+Repository note:
+- Checked-in example outputs for this skill live under `../examples/rounds/`.
+- Do not write new workflow runs into `../examples/rounds/`; use a workspace-local `rounds/` directory instead.
 
 ---
 
