@@ -1,32 +1,32 @@
-# llm-skills
+# llm-skills ✦
 
 [English](README.md)
 
-面向 LLM 编码助手的可复用、可落地技能仓库。
+### ⚡ 给日常 AI coding 准备的精选生产力 skills。
 
-这个仓库面向那些不满足于“提示词片段”的用户：它提供可复用指令、平台元数据、示例和配套文档，并同时兼容 Claude Code 与 Codex。
+先想清楚，再动手；先控住 token，再跑长链路。
 
-这不是一个大而全的 skill 收集器，而是一个经过筛选的 AI 生产力工作流仓库。这里只保留那些能在日常 AI coding 中真正带来杠杆的东西：先把重要任务想清楚、控制 token 消耗、把高价值且反复出现的模式沉淀成可复用流程。
+这不是一个大而全的 skill 收集器，也不是零散 prompt 的堆放区。它面向那些每天都在用 AI 写代码的工程师，提供一组真正有用的 AI coding 生产力 skills：让 first prompt 更强、让高风险改动先被想透、让 token 别在半路悄悄烧光。
 
-## 先解决最痛的问题
+## 🧠 先看最痛的问题
 
-- `roundtable-design-review`：重要任务别急着做。先让多模型 review 你的 first prompt、设计方案、重构方向，确保想清楚了再动手。
-- `token-guard`：还在被 token 黑洞拖垮吗？还在因为 Claude 昂贵又稀少的 token 半路停工吗？用它先拦住高风险会话，别让上下文和预算悄悄流干。
+- `roundtable-design-review`：**痛点** first prompt 还没想透、设计方案还没压实、高风险重构却已经开始推进。**干预** 先走一轮跨模型 review，再允许执行。**结果** 更强的 prompt、更稳的方案，以及更少的昂贵返工。
+- `token-guard`：**痛点** 长会话、超大工具输出和 Claude token 上限，最容易把一条好链路直接做死在半路。**干预** 先做轻量预检，只把真正高风险的任务升级到 TokenGuard。**结果** 更少 token 浪费、更少上下文爆炸，以及更高的任务完工率。
 
-## 为什么做这个仓库
+## 🚀 为什么做这个仓库
 
-- 不是“什么都收”的 skill 仓库，只收那些能真实提升日常 AI coding 效率的工作流。
+- 这是精选的 AI coding 生产力 skills，不是“什么都收”的 skill 仓库。
 - 一个仓库，多个 skill，一套稳定目录结构。
 - 用同一份 `SKILL.md` 适配多个平台。
 - 通过 `agents/openai.yaml` 提供可选的 Codex 元数据。
 - 该常驻的保持轻量，该详细的只在需要时加载。
 - 用仓库内示例和参考文档代替口口相传的隐性知识。
 
-## 重点技能
+## 🌟 旗舰 Skills
 
-### `roundtable-design-review`
+### 👥 `roundtable-design-review`
 
-面向多模型协作设计评审的结构化工作流。适合让一个模型产出方案、多个模型审查、由人来裁决，同时避免把设计过程文件混进业务代码库。
+面向多模型协作设计评审的结构化工作流。适合让一个模型产出方案、多个模型审查、由人来裁决。
 
 - Skill 定义：`skills/roundtable-design-review/SKILL.md`
 - Codex 元数据：`skills/roundtable-design-review/agents/openai.yaml`
@@ -41,9 +41,9 @@
   -> 全部通过 -> 完成 / 有阻塞 -> Author 修复 V3 -> 完成
 ```
 
-### `token-guard`
+### 🛡️ `token-guard`
 
-只在高风险场景启用的 token 成本守门 skill。它专门拦截那些悄悄吞噬上下文和预算的模式，例如长会话膨胀、全仓扫描、工具循环、超大工具输出、重复背景、过重的 MCP 暴露，以及中途切模型、切 thinking、切工具策略。
+别让 token 黑洞拖垮执行。`token-guard` 是只在高风险场景启用的 Token 守卫 skill，专门拦截那些悄悄吞噬上下文和预算的模式，例如长会话膨胀、全仓扫描、工具循环、超大工具输出、重复背景、过重的 MCP 暴露，以及中途切模型、切 thinking、切工具策略。
 
 - Skill 定义：`skills/token-guard/SKILL.md`
 - Codex 元数据：`skills/token-guard/agents/openai.yaml`

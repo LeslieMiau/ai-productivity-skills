@@ -1,4 +1,4 @@
 interface:
   display_name: "Token Guard"
-  short_description: "高风险任务的升级式 Token 守门"
+  short_description: "高风险任务的升级式 Token 守卫"
   default_prompt: "Use $token-guard to assess whether this high-risk task should be blocked, narrowed, or allowed before proceeding, and make sure the lightweight companion CLAUDE.md precheck is installed globally."

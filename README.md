@@ -1,30 +1,30 @@
-# llm-skills
+# llm-skills ✦
 
 [简体中文](README.zh-CN.md)
 
-Reusable, production-minded skills for LLM coding assistants.
+### ⚡ Curated AI coding productivity skills for daily coding work.
 
-This repository is for people who want assistant workflows that are sharper than generic prompt snippets: reusable instructions, platform metadata, examples, and companion docs that work across both Claude Code and Codex.
+Think first. Refactor later. Keep the token budget alive.
 
-This is not a giant skill catalog. It is a curated repository of AI productivity workflows that create real leverage in day-to-day AI coding work: planning important changes before coding, controlling token burn, and turning repeated high-value patterns into reusable operating procedures.
+Not a giant skill catalog. Not a random prompt dump. This repository is a curated set of AI coding productivity skills for engineers who ship with AI every day and want sharper defaults for high-value work: better first prompts, safer refactors, less token waste, and reusable workflows that actually pull their weight.
 
-## Solve The Pain First
+## 🧠 Start With The Pain
 
-- `roundtable-design-review`: Use cross-model review for first prompts, design proposals, and risky refactors so you think through the important work before you start coding.
-- `token-guard`: Stop losing momentum to token black holes, bloated sessions, and expensive Claude limits. Use it to catch high-risk tasks before they burn context and stall the job.
+- `roundtable-design-review`: **Pain** the first prompt is weak, the design is still fuzzy, and the refactor is already moving. **Intervention** force a cross-model review loop before execution. **Outcome** stronger plans, sharper prompts, and fewer expensive wrong turns.
+- `token-guard`: **Pain** long sessions, oversized tool output, and Claude token ceilings can quietly kill execution halfway through. **Intervention** run a lightweight precheck and escalate only the risky work. **Outcome** less token waste, fewer context blowups, and better odds the job actually finishes.
 
-## Why This Repo
+## 🚀 Why This Repo
 
-- Not a kitchen-sink skill collection. Only keep workflows that materially improve real AI coding work.
+- Curated AI coding productivity skills, not a kitchen-sink skill collection.
 - One repository, multiple skills, one predictable layout.
 - Shared `SKILL.md` instructions across platforms.
 - Optional Codex metadata via `agents/openai.yaml`.
 - Lightweight global guidance where it helps, detailed workflows only when needed.
 - Checked-in examples and references instead of hidden tribal knowledge.
 
-## Featured Skills
+## 🌟 Flagship Skills
 
-### `roundtable-design-review`
+### 👥 `roundtable-design-review`
 
 Structured multi-model design workflow for proposal, critique, revision, and final review. Use it when one model should author, peers should review, and the human should arbitrate without mixing design artifacts into the main codebase.
 
@@ -41,7 +41,7 @@ User idea -> Author drafts V1 -> Reviewers critique -> Human arbitrates
   -> All approved -> Done / Any blocker -> Author fixes V3 -> Done
 ```
 
-### `token-guard`
+### 🛡️ `token-guard`
 
 Escalation-only token budget guardrail for expensive sessions. Use it to catch the patterns that quietly burn context and budget: long-session bloat, repo-wide scans, tool loops, oversized tool output, repeated background, heavy MCP exposure, or mid-session switching of model, thinking mode, or tool strategy.
 

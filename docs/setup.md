@@ -2,6 +2,8 @@
 
 [简体中文](setup.zh-CN.md)
 
+Portable installation notes for this repository's AI coding productivity skills.
+
 This repository supports two installation styles:
 
 - Install an individual skill only.

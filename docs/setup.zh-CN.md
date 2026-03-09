@@ -2,6 +2,8 @@
 
 [English](setup.md)
 
+这份文档负责说明本仓库这组 AI coding 生产力 skills 的安装方式。
+
 这个仓库支持两种安装方式：
 
 - 只安装单个 skill。
@@ -17,7 +19,7 @@
 
 ## 安装 `token-guard`
 
-`token-guard` 设计为双层结构：
+`token-guard` 设计为双层结构，也可以把它理解成一套 Token 守卫机制：
 
 - `CLAUDE.md` 中的全局轻量预检
 - `skills/token-guard/SKILL.md` 中的高风险升级工作流
