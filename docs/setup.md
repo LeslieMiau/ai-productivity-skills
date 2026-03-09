@@ -35,7 +35,7 @@ Why this split:
 
 - `CLAUDE.md` stays short and always-on.
 - `token-guard` only loads when the task is actually risky or explicitly requested.
-- Normal tasks stay fast and low-friction.
+- Normal tasks stay fast and low-friction, while allowed tasks can still report major estimate drift if real usage balloons.
 
 ### Codex
 
@@ -55,6 +55,7 @@ new task
   -> low/medium risk: do the task
   -> high/extreme risk: invoke token-guard
   -> token-guard intercepts or allows with a coarse estimate
+  -> if actual execution grows far beyond the estimate, token-guard re-intercepts or reports drift at the end of the turn
 ```
 
 Use explicit invocation when needed:

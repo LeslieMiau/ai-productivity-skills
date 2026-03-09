@@ -35,7 +35,7 @@
 
 - `CLAUDE.md` 保持短小并常驻生效。
 - `token-guard` 只在任务真的高风险或被显式调用时加载。
-- 普通任务依旧保持快速、低干扰。
+- 普通任务依旧保持快速、低干扰；即使任务被放行，若实际消耗后续明显失控，也还能补充偏差反馈。
 
 ### Codex
 
@@ -55,6 +55,7 @@ new task
   -> low/medium risk: do the task
   -> high/extreme risk: invoke token-guard
   -> token-guard intercepts or allows with a coarse estimate
+  -> if actual execution grows far beyond the estimate, token-guard re-intercepts or reports drift at the end of the turn
 ```
 
 需要时可以显式调用：

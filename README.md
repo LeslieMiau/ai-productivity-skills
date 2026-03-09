@@ -11,7 +11,7 @@ Not a giant skill catalog. Not a random prompt dump. This repository is a curate
 ## 🧠 Start With The Pain
 
 - `roundtable-design-review`: **Pain** the first prompt is weak, the design is still fuzzy, and the refactor is already moving. **Intervention** force a cross-model review loop before execution. **Outcome** stronger plans, sharper prompts, and fewer expensive wrong turns.
-- `token-guard`: **Pain** long sessions, oversized tool output, and Claude token ceilings can quietly kill execution halfway through. **Intervention** run a lightweight precheck and escalate only the risky work. **Outcome** less token waste, fewer context blowups, and better odds the job actually finishes.
+- `token-guard`: **Pain** long sessions, oversized tool output, and Claude token ceilings can quietly kill execution halfway through. **Intervention** run a lightweight precheck, escalate only the risky work, and surface drift when actual token cost grows far beyond the original estimate. **Outcome** less token waste, fewer context blowups, and better odds the job actually finishes.
 
 ## 🚀 Why This Repo
 
@@ -43,10 +43,11 @@ User idea -> Author drafts V1 -> Reviewers critique -> Human arbitrates
 
 ### 🛡️ `token-guard`
 
-Escalation-only token budget guardrail for expensive sessions. Use it to catch the patterns that quietly burn context and budget: long-session bloat, repo-wide scans, tool loops, oversized tool output, repeated background, heavy MCP exposure, or mid-session switching of model, thinking mode, or tool strategy.
+Escalation-only token budget guardrail for expensive sessions. Use it to catch the patterns that quietly burn context and budget: long-session bloat, repo-wide scans, tool loops, oversized tool output, repeated background, heavy MCP exposure, or mid-session switching of model, thinking mode, or tool strategy. When a task is allowed, it still re-checks execution drift and can report when actual usage ends up far above the coarse forecast.
 
 - Skill definition: `skills/token-guard/SKILL.md`
 - Codex metadata: `skills/token-guard/agents/openai.yaml`
+- Sample scenarios: `skills/token-guard/examples/`
 - Companion global precheck: `CLAUDE.md`
 - Setup guide: `docs/setup.md`
 
@@ -57,6 +58,7 @@ CLAUDE.md lightweight precheck
   -> low/medium risk: proceed normally
   -> high/extreme risk or explicit TokenGuard request: invoke token-guard
   -> token-guard intercepts, narrows scope, or allows with a coarse estimate
+  -> if actual execution drifts far above that estimate, token-guard re-intercepts or adds a drift warning
 ```
 
 Example prompts:
@@ -68,6 +70,11 @@ Use $token-guard to assess this request before doing it:
 Use $token-guard for an explicit check:
 "Evaluate whether this task is too expensive before proceeding: review these 20 files and summarize everything."
 ```
+
+## Recent Updates
+
+- `2026-03-09`: `token-guard` now records an allow-time baseline, prefers host usage telemetry when available, reports meaningful end-of-turn drift when actual usage lands 2+ bands above the estimate, and reuses the existing interception flow when execution expands into `large` or `extreme`.
+- `2026-03-09`: Added sample scenarios under `skills/token-guard/examples/` for allow-without-drift, allow-with-end-of-turn-drift, and execution-time re-interception.
 
 ## Quick Start
 

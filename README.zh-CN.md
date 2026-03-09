@@ -11,7 +11,7 @@
 ## 🧠 先看最痛的问题
 
 - `roundtable-design-review`：**痛点** first prompt 还没想透、设计方案还没压实、高风险重构却已经开始推进。**干预** 先走一轮跨模型 review，再允许执行。**结果** 更强的 prompt、更稳的方案，以及更少的昂贵返工。
-- `token-guard`：**痛点** 长会话、超大工具输出和 Claude token 上限，最容易把一条好链路直接做死在半路。**干预** 先做轻量预检，只把真正高风险的任务升级到 TokenGuard。**结果** 更少 token 浪费、更少上下文爆炸，以及更高的任务完工率。
+- `token-guard`：**痛点** 长会话、超大工具输出和 Claude token 上限，最容易把一条好链路直接做死在半路。**干预** 先做轻量预检，只把真正高风险的任务升级到 TokenGuard，并在实际 token 消耗远超事前粗估时补充偏差反馈。**结果** 更少 token 浪费、更少上下文爆炸，以及更高的任务完工率。
 
 ## 🚀 为什么做这个仓库
 
@@ -43,10 +43,11 @@
 
 ### 🛡️ `token-guard`
 
-别让 token 黑洞拖垮执行。`token-guard` 是只在高风险场景启用的 Token 守卫 skill，专门拦截那些悄悄吞噬上下文和预算的模式，例如长会话膨胀、全仓扫描、工具循环、超大工具输出、重复背景、过重的 MCP 暴露，以及中途切模型、切 thinking、切工具策略。
+别让 token 黑洞拖垮执行。`token-guard` 是只在高风险场景启用的 Token 守卫 skill，专门拦截那些悄悄吞噬上下文和预算的模式，例如长会话膨胀、全仓扫描、工具循环、超大工具输出、重复背景、过重的 MCP 暴露，以及中途切模型、切 thinking、切工具策略。任务被放行后，它也会持续重估执行体量，并在实际消耗显著超出粗估时补充反馈。
 
 - Skill 定义：`skills/token-guard/SKILL.md`
 - Codex 元数据：`skills/token-guard/agents/openai.yaml`
+- 示例场景：`skills/token-guard/examples/`
 - 配套全局预检：`CLAUDE.md`
 - 安装指南：`docs/setup.zh-CN.md`
 
@@ -57,6 +58,7 @@ CLAUDE.md 轻量预检
   -> 低/中风险：正常执行
   -> 高/极高风险或显式请求 TokenGuard：调用 token-guard
   -> token-guard 拦截、缩小范围，或给出粗粒度放行估算
+  -> 若执行中实际消耗显著超估，则重新拦截或追加偏差提醒
 ```
 
 示例提示：
@@ -68,6 +70,11 @@ Use $token-guard to assess this request before doing it:
 Use $token-guard for an explicit check:
 "Evaluate whether this task is too expensive before proceeding: review these 20 files and summarize everything."
 ```
+
+## 近期更新
+
+- `2026-03-09`：`token-guard` 现在会在放行时记录基线，优先使用宿主 usage telemetry，并在实际使用比粗估高 2 档以上时给出结束态偏差反馈；如果执行中扩张到 `large` 或 `extreme`，则复用原有拦截流程。
+- `2026-03-09`：新增 `skills/token-guard/examples/` 示例场景，覆盖正常放行、结束态超估和执行中重新拦截。
 
 ## 快速开始
 

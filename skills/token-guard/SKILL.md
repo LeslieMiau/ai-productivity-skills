@@ -11,6 +11,7 @@ High-risk escalation layer only. Do not use as a default entrypoint.
 - Use this skill only after a lightweight precheck flags high or extreme risk, or when the user explicitly asks for TokenGuard.
 - Remove obvious waste before reducing quality.
 - Estimate ranges, not fake-precise token counts.
+- If host usage telemetry is unavailable, never pretend to know exact token usage; report only coarse bands and the main observed cause.
 
 ## Session State
 
@@ -147,13 +148,29 @@ Do not answer the original task. Output only this warning block:
 
 Then stop and wait for the next user message.
 
-If the final risk is `minimal`, `small`, or `medium`, execute normally and append one line at the end:
+If the final risk is `minimal`, `small`, or `medium`, allow the task and record a turn-local baseline before execution:
+
+- `expected_incremental_band`
+- `risk`
+- `cache_friendliness`
+
+This baseline is only for the current turn. Do not carry it across turns.
+
+Then execute normally and append one line at the end:
 
 ```text
 Token Guard：原始体量 ≈ [区间]，缓存友好度 [高/中/低]，预计有效新增 ≈ [区间] tokens（[低/中]风险，粗估）
 ```
 
-### Step 6: Reassess During Execution
+Use the same five-band ladder for both expected and actual incremental usage:
+
+- band 0 -> `<2k`
+- band 1 -> `2k-8k`
+- band 2 -> `8k-25k`
+- band 3 -> `25k-60k`
+- band 4 -> `60k+`
+
+### Step 6: Reassess During Execution and Handle Drift
 
 Re-estimate before or after any of these changes:
 
@@ -163,7 +180,31 @@ Re-estimate before or after any of these changes:
 4. The user asks to switch model, thinking mode, tools, or MCP strategy.
 5. The answer is growing far beyond the original expectation.
 
-If the task has clearly crossed into `large` or `extreme`, interrupt and re-enter the interception flow.
+During reassessment, derive `actual_incremental_band` for the current turn:
+
+- If host usage telemetry is available, map the best available real usage signal to the same band ladder.
+- Prefer uncached or effective-added usage when the host exposes it.
+- If the host exposes only total turn usage, use that signal conservatively instead of inventing precision.
+- If telemetry is unavailable, infer the band from observed context growth, tool-result size, file/log volume, answer length, and session expansion.
+
+Compare `actual_incremental_band` against the recorded `expected_incremental_band`.
+
+Treat the turn as meaningfully over estimate if either condition is true:
+
+1. `actual_incremental_band` is at least two bands higher than `expected_incremental_band`.
+2. The task was allowed earlier, but actual behavior has now crossed into `large` or `extreme`.
+
+If the task has clearly crossed into `large` or `extreme`, interrupt and re-enter the interception flow with the existing warning block. Do not create a second warning template.
+
+If the turn completes normally but the final `actual_incremental_band` is still meaningfully over estimate, append one extra line after the standard estimate line:
+
+```text
+Token Guard 偏差：实际有效新增 ≈ [区间]，较事前粗估高 [2+ 档]；主要原因：[...]
+```
+
+Choose one dominant cause only, such as oversized tool results, unexpected tool-loop growth, broadened scope, or cache-unfriendly switching.
+
+Do not emit the drift line when the gap is only one band. Do not emit the drift line after an in-flight interception, because that turn already ended in the warning flow.
 
 ## Main Cost Drivers
 
@@ -230,6 +271,6 @@ If the current task is clearly unrelated to the last one or two turns and the se
 - Do not exaggerate or report fake-exact token counts.
 - Do not over-block ordinary work.
 - When intercepting, never leak the original task answer.
-- When allowing, append only the single Token Guard estimate line.
+- When allowing, append the standard estimate line and add the drift line only if Step 6 triggered a meaningful over-estimate result.
 
 Block only truly expensive patterns: long history, unstable prefix, broad scans, tool loops, heavy tool output, and mid-session switching. Do not add friction to normal work.
