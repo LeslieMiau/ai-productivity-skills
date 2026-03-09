@@ -1,4 +1,4 @@
 interface:
-  display_name: "LeslieMiau Roundtable Design Review"
+  display_name: "Roundtable Design Review"
   short_description: "Structured multi-model design author-review workflow"
   default_prompt: "Use the session-based Author-Reviewer workflow to create or continue an isolated design session under AI_SESSIONS_HOME/roundtable-design-review/<workspace-slug>/<session-slug>/, draft a proposal, review it across multiple models, and finalize the design without mixing artifacts into business code."
