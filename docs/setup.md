@@ -2,7 +2,7 @@
 
 [简体中文](setup.zh-CN.md)
 
-Portable installation notes for this repository's AI coding productivity skills.
+Portable installation notes for AI Coding Skills, a curated repository of reusable AI coding skills for Claude Code and Codex.
 
 This repository supports two installation styles:
 

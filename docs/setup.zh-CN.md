@@ -2,7 +2,7 @@
 
 [English](setup.md)
 
-这份文档负责说明本仓库这组 AI coding 生产力 skills 的安装方式。
+这份文档负责说明 AI Coding Skills 的安装方式。这是一个面向 Claude Code 和 Codex 的可复用 AI coding skills 仓库。
 
 这个仓库支持两种安装方式：
 

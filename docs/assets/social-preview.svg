@@ -1,0 +1,56 @@
+<svg width="1280" height="640" viewBox="0 0 1280 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="80" y1="40" x2="1160" y2="600" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8F2E7"/>
+      <stop offset="1" stop-color="#E6EEF4"/>
+    </linearGradient>
+    <linearGradient id="card" x1="330" y1="210" x2="980" y2="540" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#16324F"/>
+      <stop offset="1" stop-color="#0F2438"/>
+    </linearGradient>
+    <filter id="shadow" x="248" y="160" width="780" height="358" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="18"/>
+      <feGaussianBlur stdDeviation="20"/>
+      <feComposite in2="hardAlpha" operator="out"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.0588235 0 0 0 0 0.141176 0 0 0 0 0.223529 0 0 0 0.18 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_1"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_1" result="shape"/>
+    </filter>
+  </defs>
+
+  <rect width="1280" height="640" rx="32" fill="url(#bg)"/>
+  <circle cx="1130" cy="110" r="106" fill="#F28C6F" fill-opacity="0.22"/>
+  <circle cx="148" cy="544" r="144" fill="#7EA8BE" fill-opacity="0.18"/>
+  <path d="M1060 210C1127.38 210 1182 155.378 1182 88" stroke="#16324F" stroke-opacity="0.12" stroke-width="2"/>
+  <path d="M112 420H260" stroke="#16324F" stroke-opacity="0.12" stroke-width="2"/>
+  <path d="M112 452H226" stroke="#16324F" stroke-opacity="0.12" stroke-width="2"/>
+
+  <text x="104" y="148" fill="#16324F" font-family="Avenir Next, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="66" font-weight="700">AI Coding Skills</text>
+  <text x="106" y="192" fill="#A34A2C" font-family="Avenir Next, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="600">for Claude Code and Codex</text>
+  <text x="106" y="248" fill="#213547" font-family="Avenir Next, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="28" font-weight="500">Curated AI coding skills for stronger prompts, safer design reviews,</text>
+  <text x="106" y="286" fill="#213547" font-family="Avenir Next, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="28" font-weight="500">and token-aware execution.</text>
+
+  <g filter="url(#shadow)">
+    <rect x="286" y="198" width="708" height="280" rx="28" fill="url(#card)"/>
+  </g>
+
+  <rect x="330" y="244" width="276" height="174" rx="22" fill="#F3E7D2"/>
+  <rect x="674" y="244" width="276" height="174" rx="22" fill="#D6E4EC"/>
+
+  <text x="362" y="292" fill="#16324F" font-family="Avenir Next, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700">FLAGSHIP SKILL</text>
+  <text x="362" y="332" fill="#16324F" font-family="Avenir Next, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700">Roundtable</text>
+  <text x="362" y="366" fill="#16324F" font-family="Avenir Next, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700">Design Review</text>
+  <text x="362" y="403" fill="#4B5D6A" font-family="Avenir Next, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="500">Stronger first prompts.</text>
+
+  <text x="706" y="292" fill="#16324F" font-family="Avenir Next, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700">FLAGSHIP SKILL</text>
+  <text x="706" y="332" fill="#16324F" font-family="Avenir Next, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700">Token Guard</text>
+  <text x="706" y="366" fill="#16324F" font-family="Avenir Next, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700">Execution Layer</text>
+  <text x="706" y="403" fill="#4B5D6A" font-family="Avenir Next, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="500">Fewer context blowups.</text>
+
+  <rect x="104" y="482" width="182" height="42" rx="21" fill="#16324F"/>
+  <rect x="304" y="482" width="122" height="42" rx="21" fill="#A34A2C"/>
+  <text x="136" y="510" fill="#F8F2E7" font-family="Avenir Next, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700">Claude Code</text>
+  <text x="342" y="510" fill="#FFF4EA" font-family="Avenir Next, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700">Codex</text>
+</svg>

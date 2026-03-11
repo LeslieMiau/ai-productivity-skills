@@ -33,7 +33,7 @@ Rules:
 1. Create `skills/<skill-slug>/SKILL.md` with YAML frontmatter.
 2. Add `agents/openai.yaml` if the skill should surface cleanly in Codex/OpenAI interfaces.
 3. Add `references/` and `examples/` only when they carry real reusable value.
-4. Update `README.md` so the new skill is discoverable.
+4. Update `README.md` and `README.en.md` so the new skill is discoverable in both the default Chinese landing page and the English README.
 5. If the skill relies on a root-level companion file such as `CLAUDE.md`, document that relationship in both the skill and the repo docs.
 
 Minimal frontmatter example:

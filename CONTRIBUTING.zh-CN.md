@@ -33,7 +33,7 @@ skills/<skill-slug>/
 1. 创建带 YAML frontmatter 的 `skills/<skill-slug>/SKILL.md`。
 2. 如果这个 skill 需要在 Codex/OpenAI 界面中良好展示，就添加 `agents/openai.yaml`。
 3. 只有在 `references/` 和 `examples/` 确实具有复用价值时才添加。
-4. 更新 `README.zh-CN.md`，让新 skill 可被发现。
+4. 更新 `README.md` 和 `README.en.md`，让新 skill 在中文默认首页和英文 README 中都可被发现。
 5. 如果 skill 依赖根目录的配套文件，例如 `CLAUDE.md`，请在 skill 和仓库文档中都写清楚这种关系。
 
 最小 frontmatter 示例：
