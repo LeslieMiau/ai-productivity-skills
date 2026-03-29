@@ -1,0 +1,58 @@
+{
+  "skill_name": "harness-engineering",
+  "version": "2.0",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "/harness-engineering 帮我重构当前项目的架构",
+      "expected_output": "Detects Python stack, checks existing work (git log, handoff docs) before planning, generates init.sh using project's own test command, creates PLAN.json with only REMAINING features (not re-planning completed work), creates PROGRESS.md with decision rationale, updates .gitignore, responds in Chinese (matching user language), does NOT reference CLAUDE.md/AGENTS.md harness mode",
+      "assertions": [
+        "init.sh file is generated (or skipped if already exists)",
+        "init.sh contains Python-specific commands (pytest/venv/uvicorn)",
+        "init.sh does not contain 'set -e'",
+        "init.sh uses project's own test command, not hardcoded runner",
+        "PLAN.json file is generated",
+        "PLAN.json is valid JSON",
+        "PLAN.json contains >= 10 features (only remaining work)",
+        "PLAN.json does NOT re-plan already-completed features",
+        "PLAN.json orders testing features AFTER the code they test",
+        "Every feature in PLAN.json has passes: false",
+        "PROGRESS.md file is generated",
+        "PROGRESS.md includes existing work summary and decision rationale",
+        ".gitignore includes PLAN.json and PROGRESS.md entries",
+        "Response is in Chinese (matches user language)",
+        "Response does NOT mention CLAUDE.md or AGENTS.md harness mode"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "set up this project for codex",
+      "expected_output": "Detects Node.js stack, generates init.sh using project's own test/dev commands (pnpm test, not npx jest), updates .gitignore, does NOT create PLAN.json (no task description), responds in English",
+      "assertions": [
+        "init.sh file is generated",
+        "init.sh contains Node-specific commands using project's own scripts (pnpm test / npm test)",
+        "init.sh does not contain 'set -e'",
+        "init.sh does NOT hardcode 'npx jest' when package.json has a test script",
+        "No PLAN.json generated (no task description)",
+        ".gitignore includes PLAN.json and PROGRESS.md entries",
+        "Response is in English (matches user language)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "harness 进度怎么样了",
+      "expected_output": "Reads PLAN.json and shows ALL remaining features (not just next 3), reads PROGRESS.md for recent sessions, shows git log and checks alignment with plan, responds in Chinese, structured dashboard format",
+      "assertions": [
+        "Shows progress fraction (e.g. 3/8)",
+        "Shows percentage",
+        "Lists ALL remaining features (not just next 3)",
+        "Shows recent session info from PROGRESS.md",
+        "Shows git log commits",
+        "Notes if git commits don't align with plan features",
+        "Suggests regenerating init.sh if missing",
+        "Output has structured dashboard format",
+        "Response is in Chinese (matches user language)"
+      ]
+    }
+  ]
+}
