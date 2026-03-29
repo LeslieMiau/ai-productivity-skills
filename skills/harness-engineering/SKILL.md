@@ -1,7 +1,7 @@
 ---
 name: harness-engineering
 description: "Set up and manage long-running autonomous agent harnesses for any software project. Use this skill whenever the user wants to: configure a project for autonomous coding sessions, set up anti-forgetting mechanisms for AI agents, create init.sh/PLAN.json/PROGRESS.md scaffolding, check harness progress, or clean up harness files after completion. Trigger on natural language too — phrases like 'harness 进度怎么样', '做到哪了', 'what's the status', 'harness 清理一下', 'done with the task', 'set up this project for codex', 'make claude code work autonomously here', or any mention of 'harness', 'long-running agent', 'autonomous coding', 'anti-forgetting'. If the user wants an agent to work on a multi-step task without losing context, this skill applies."
-version: "2.0"
+version: "2.1"
 ---
 
 # Harness Engineering
@@ -220,17 +220,29 @@ Recent commits:
 
 ## harness-reset
 
-Clean up harness files after a task is complete:
+Clean up harness files. This happens in two scenarios:
 
-1. Confirm with the user before deleting
-2. Check PLAN.json — warn if there are incomplete features
-3. Remove `PLAN.json` and `PROGRESS.md`
-4. Keep `init.sh` and `.gitignore` entries (they're useful for future sessions)
-5. Commit the cleanup:
+### Auto-cleanup (all features complete)
+When all features in PLAN.json have `passes: true`, the agent should **automatically** clean up without asking:
+
+1. Append completion summary to PROGRESS.md
+2. `git rm PLAN.json PROGRESS.md`
+3. `git commit -m "harness: all features complete, cleanup"`
+4. Report completion to user
+
+This ensures the workspace is clean for the next harness task.
+
+### Manual cleanup (user triggers)
+When the user says "harness 清理一下" / "reset harness" / "任务完成了":
+
+1. Check PLAN.json — warn if there are incomplete features, ask to confirm
+2. Remove `PLAN.json` and `PROGRESS.md`
+3. Keep `init.sh` and `.gitignore` entries (they're useful for future sessions)
+4. Commit the cleanup:
 
 ```bash
 git rm PLAN.json PROGRESS.md
-git commit -m "harness: clean up completed task files"
+git commit -m "harness: clean up task files"
 ```
 
 ---
@@ -242,8 +254,10 @@ These are baked into AGENTS.md / CLAUDE.md globally, but understanding them help
 1. **External state over memory** — PLAN.json + PROGRESS.md + git survive context resets
 2. **JSON over Markdown for specs** — models resist corrupting structured JSON
 3. **Immutable spec** — only `passes` field changes in PLAN.json; description/steps are read-only
-4. **Single feature per session** — prevents context exhaustion mid-implementation
-5. **E2E verification** — features aren't done until verified through the full user flow
-6. **Session-end commit** — always commit progress, even if incomplete
-7. **Git recovery** — stash/revert when existing features break
-8. **Non-fatal init** — init.sh reports errors but never blocks the agent
+4. **Continuous loop** — complete a feature → commit → pick next → repeat. Never stop between features unless blocked
+5. **Commit as checkpoint** — every feature completion = git commit + PLAN.json update + PROGRESS.md append. This is the recovery point
+6. **E2E verification** — features aren't done until verified through the full user flow
+7. **Session-end commit** — always commit progress, even if incomplete
+8. **Git recovery** — stash/revert when existing features break
+9. **Non-fatal init** — init.sh reports errors but never blocks the agent
+10. **Auto-cleanup** — when all features pass, delete PLAN.json + PROGRESS.md so the next task starts clean
